@@ -4,6 +4,7 @@ var PondView = Barebone.View.extend({
   tagName: 'table',//???
   // autoRender: true,
   // autoReRender: true,
+  autoRenderTemplate: true,
 
   template: _.template('<tr> <td> <%- name %> </td> <td> <img src="<%- image %>"/> </td> </tr>'),  // input - html string, output - function that takes an object w/ properties that we have access to 
 
@@ -29,11 +30,11 @@ var PondView = Barebone.View.extend({
   },
 
   // how do we render
-  render: function() {
-    var context = this;
-    this.$el.html(this.collection.map(function(fish) {
-      return context.template(fish.attributes);
-    })).appendTo('body');
-  }
+  // render: function() {
+  //   var context = this;
+  //   this.$el.html(this.collection.map(function(fish) {
+  //     return context.template(fish.attributes);
+  //   })).appendTo('body');
+  // }
 
 });

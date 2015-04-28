@@ -226,6 +226,7 @@ var View = Barebone.View = function(options) {
   this.initialize.apply(this, arguments);
   this.autoRender && this.render.apply(this);
   this.autoReRender && this.renderOnChange.apply(this);
+  this.autoRenderTemplate && this.renderTemplate.apply(this);
 };
 
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
@@ -278,6 +279,13 @@ _.extend(View.prototype, Events, {
 
   renderOnChange: function() {
     this.collection.on('change', this.render, this);
+  },
+
+  renderTemplate: function() {
+    var context = this;
+    this.$el.html(this.collection.map(function(model) {
+      return context.template(model.attributes);
+    })).appendTo('body');
   }
 
 
