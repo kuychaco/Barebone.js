@@ -2,6 +2,7 @@
 
 var Barebone = {};
 
+Barebone.$ = $;
 
 
 /*
@@ -209,8 +210,52 @@ _.each(methods, function(method) {
 /*
 BAREBONE VIEW
 Provide convention to organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the whole page.
-
+You no longer need to dig into a JSON object, look up an element on the DOM, and manually update the HTML. Simply bind your view's render function to the model's change event
 */
+
+var View = Barebone.View = function(options) {
+  this.cid = _.uniqueId('view');
+  options || (options = {});
+  this._ensureElement();
+  _.extend(this, _.pick(options, viewOptions));  // _.pick returns a copy of the object, filtered to only have values for whitelisted keys
+  this.initialize.apply(this, arguments);
+};
+
+var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+
+// add inheritable properties and methods
+_.extend(View.prototype, Events, {
+
+  tagName: 'div',
+  
+  // jQuery delegate for element lookup, scoped to DOM elements within current view
+  $: function(selector) {
+    return this.$el.find(selector);
+  },
+
+  initialize: function() {},
+
+  // override with custom render function to populate element this.el
+  render: function() {
+    return this;
+  },
+
+  // ensure that the View has a DOM element to render into
+  _ensureElement: function() {
+    if (!this.el) {
+      // var attrs = 
+    }
+  },
+
+  // create this.el and this.$el references
+  _setElement: function(el) {
+    this.$el = el instanceof Barebone.$ ? el : Barebone.$(el);
+    this.el = this.$el[0];
+  }
+
+
+});
+
 
 
 
@@ -247,7 +292,7 @@ var extend = function(protoProps) {
 }
 
 // set up inheritance for the model, collection, and view
-Model.extend = Collection.extend = extend;
+Model.extend = Collection.extend = View.extend = extend;
 
 window.Barebone = Barebone;
 })();

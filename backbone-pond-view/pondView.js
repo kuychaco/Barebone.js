@@ -10,21 +10,21 @@ var PondView = Backbone.View.extend({
   initialize: function() {
     this.render();
     // on name change, re-render
-    // this.collection.on('change:name', function(fish) {
-    //   console.log(fish.name);
-    //   console.log(this);
-    //   this.render();
-    // }, this);
+    this.collection.on('change:name', function(fish) {
+      console.log(fish.name);
+      console.log(this);
+      this.render();
+    }, this);
   },
 
   // dom events go here
   // "controller" - turns user behavior into intent
-  // events: {
-  //   'click': function(event) {
-  //     console.log(this);
-  //     $(event.target).css('border', 'medium solid green');
-  //   }
-  // },
+  events: {
+    'click': function(event) {
+      console.log(this);
+      $(event.target).css('border', 'medium solid green');
+    }
+  },
 
   // how do we render
   render: function() {
