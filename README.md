@@ -23,7 +23,7 @@ Once the project moves into development, the press release can be used as a touc
   > A library inspired by Backbone.js for basic MV* app architecture that can also be used as an education resource for those who want to understand what's happening under the hood in Backbone.js
 
 ## Summary ##
-  > Barebone.js gives structure to web applications by providing models with key-value binding, collections with a rich API of enumerable functions, and views with declarative event handling.  
+  > Barebone.js gives structure to web applications by providing models with key-value binding and custom events, collections with a rich API of enumerable functions, and views with declarative event handling.  
 
 * summary adapted from http://backbonejs.org/
 
