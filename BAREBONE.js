@@ -88,12 +88,13 @@ _.extend(Model.prototype, Events, {
   set: function(key, val) {
     // check if key already has value
 
-    var attrs, attr, current, prev, changes;
+    var attrs, attr, current, prev, changes, options;
 
     // handle two input type - object or string
     if (key == null) return this;   // null == undefined
     if (typeof key === 'object') {
       attrs = key;
+      // options = val;
       // iterate through and add to this.attributes
     } else {
       (attrs = {})[key] = val;
@@ -126,7 +127,8 @@ _.extend(Model.prototype, Events, {
       // } else {
       //   delete this.changed[attr];  // UNCLEAR: why? has to do with changing being true;
       // }
-      current[attr] = val;
+      // debugger;
+      current[attr] = attrs[attr];
     }
 
     // trigger all relevant attribute changes
@@ -216,8 +218,10 @@ You no longer need to dig into a JSON object, look up an element on the DOM, and
 var View = Barebone.View = function(options) {
   this.cid = _.uniqueId('view');
   options || (options = {});
-  this._ensureElement();
   _.extend(this, _.pick(options, viewOptions));  // _.pick returns a copy of the object, filtered to only have values for whitelisted keys
+  console.log(_.pick(options, viewOptions));
+  // debugger;
+  this._ensureElement();
   this.initialize.apply(this, arguments);
 };
 
@@ -242,15 +246,30 @@ _.extend(View.prototype, Events, {
 
   // ensure that the View has a DOM element to render into
   _ensureElement: function() {
+    // if this.el doesn't exist, create an element from id, className, and tagName
     if (!this.el) {
-      // var attrs = 
+      var attrs = _.extend({}, _.result(this, 'attributes'));  // _.result accesses value of named property, invokes if function
+      if (this.id) attr.id = _.result(this, 'id');
+      if (this.className) attrs['class'] = _.result(this, 'className');  // DISSONANCE: why bracket notation??
+      this._setElement(this._createElement(_.result(this, 'tagName')));
+      this._setAttributes(attrs);
+    } else {
+      this._setElement(_.result(this, 'el'));  
     }
+  },
+
+  _createElement: function(tagName) {
+    return document.createElement(tagName);
   },
 
   // create this.el and this.$el references
   _setElement: function(el) {
     this.$el = el instanceof Barebone.$ ? el : Barebone.$(el);
     this.el = this.$el[0];
+  },
+
+  _setAttributes: function(attrs) {
+    this.$el.attr(attrs);
   }
 
 

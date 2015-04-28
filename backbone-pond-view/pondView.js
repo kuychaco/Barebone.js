@@ -1,4 +1,4 @@
-var PondView = Backbone.View.extend({
+var PondView = Barebone.View.extend({
 
   // display table row for each item
   tagName: 'table',//???
@@ -10,7 +10,7 @@ var PondView = Backbone.View.extend({
   initialize: function() {
     this.render();
     // on name change, re-render
-    this.collection.on('change:name', function(fish) {
+    this.collection.on('change', function(fish) {
       console.log(fish.name);
       console.log(this);
       this.render();
