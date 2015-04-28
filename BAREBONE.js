@@ -286,6 +286,7 @@ _.extend(View.prototype, Events, {
     this.$el.html(this.collection.map(function(model) {
       return context.template(model.attributes);
     })).appendTo('body');
+    this.collection.on('change', this.renderTemplate, this);
   }
 
 
