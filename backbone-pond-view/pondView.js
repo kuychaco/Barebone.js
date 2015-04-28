@@ -3,6 +3,7 @@ var PondView = Barebone.View.extend({
   // display table row for each item
   tagName: 'table',//???
   // autoRender: true,
+  // autoReRender: true,
 
   template: _.template('<tr> <td> <%- name %> </td> <td> <img src="<%- image %>"/> </td> </tr>'),  // input - html string, output - function that takes an object w/ properties that we have access to 
 
@@ -11,11 +12,11 @@ var PondView = Barebone.View.extend({
   initialize: function() {
     // this.render();
     // on name change, re-render
-    this.collection.on('change', function(fish) {
-      console.log(fish.name);
-      console.log(this);
-      this.render();
-    }, this);
+    // this.collection.on('change', function(fish) {
+    //   console.log(fish.name);
+    //   console.log(this);
+    //   this.render();
+    // }, this);
   },
 
   // dom events go here

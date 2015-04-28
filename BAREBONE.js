@@ -222,13 +222,14 @@ var View = Barebone.View = function(options) {
   console.log(_.pick(options, viewOptions));
   // debugger;
   this._ensureElement();
-  debugger;
+  // debugger;
   this.initialize.apply(this, arguments);
   this.autoRender && this.render.apply(this);
+  this.autoReRender && this.renderOnChange.apply(this);
 };
 
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
-var extraOptions = ['autoRender', 'autoRerender'];
+var extraOptions = ['autoRender', 'autoReRender', 'autoRenderTemplate'];
 
 // add inheritable properties and methods
 _.extend(View.prototype, Events, {
@@ -273,6 +274,10 @@ _.extend(View.prototype, Events, {
 
   _setAttributes: function(attrs) {
     this.$el.attr(attrs);
+  },
+
+  renderOnChange: function() {
+    this.collection.on('change', this.render, this);
   }
 
 
