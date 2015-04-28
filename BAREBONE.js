@@ -241,6 +241,8 @@ var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className',
 var extraOptions = ['autoRender', 'autoReRender', 'autoRenderTemplate'];
 var extraSubOptions = ['sub_tagName'];
 
+var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+
 // add inheritable properties and methods
 _.extend(View.prototype, Events, {
 
@@ -280,6 +282,7 @@ _.extend(View.prototype, Events, {
   _setElement: function(el) {
     this.$el = el instanceof Barebone.$ ? el : Barebone.$(el);
     this.el = this.$el[0];
+    this.delegateEvents();
   },
 
   _setAttributes: function(attrs) {
@@ -296,6 +299,20 @@ _.extend(View.prototype, Events, {
       return context.template(model.attributes);
     })).appendTo('body');
     this.collection.on('change', this.renderTemplate, this);
+  },
+
+  delegateEvents: function() {
+    var events = _.result(this, 'events');
+    for (var key in events) {
+      var method = events[key];
+      var match = key.match(delegateEventSplitter);
+      this.delegate(match[1], match[2], _.bind(method, this));
+    }
+    return this;
+  },
+
+  delegate: function(eventName, selector, listener) {
+    this.$el.on(eventName, selector, listener);
   }
 
 
