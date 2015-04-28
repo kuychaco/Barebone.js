@@ -218,14 +218,17 @@ You no longer need to dig into a JSON object, look up an element on the DOM, and
 var View = Barebone.View = function(options) {
   this.cid = _.uniqueId('view');
   options || (options = {});
-  _.extend(this, _.pick(options, viewOptions));  // _.pick returns a copy of the object, filtered to only have values for whitelisted keys
+  _.extend(this, _.pick(options, viewOptions), _.pick(options, extraOptions));  // _.pick returns a copy of the object, filtered to only have values for whitelisted keys
   console.log(_.pick(options, viewOptions));
   // debugger;
   this._ensureElement();
+  debugger;
   this.initialize.apply(this, arguments);
+  this.autoRender && this.render.apply(this);
 };
 
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+var extraOptions = ['autoRender', 'autoRerender'];
 
 // add inheritable properties and methods
 _.extend(View.prototype, Events, {
