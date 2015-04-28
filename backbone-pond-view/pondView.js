@@ -20,9 +20,9 @@ var PondView = Barebone.View.extend({
   // dom events go here
   // "controller" - turns user behavior into intent
   events: {
-    'click': function(event) {
+    'click img': function(event) {
       console.log(this);
-      $(event.target).css('border', 'medium solid green');
+      $(event.target).css('border', 'medium solid red');
     }
   },
 

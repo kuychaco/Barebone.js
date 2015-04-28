@@ -1,9 +1,6 @@
 (function() {
-
 var Barebone = {};
-
 Barebone.$ = $;
-
 
 /*
 BAREBONE EVENTS 
@@ -225,7 +222,11 @@ var View = Barebone.View = function(options) {
   this.initialize.apply(this, arguments);
 };
 
+// List of view options to be merged as properties
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+
+// cached regex to split keys for delegate
+var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
 // add inheritable properties and methods
 _.extend(View.prototype, Events, {
@@ -266,12 +267,29 @@ _.extend(View.prototype, Events, {
   _setElement: function(el) {
     this.$el = el instanceof Barebone.$ ? el : Barebone.$(el);
     this.el = this.$el[0];
+    this.delegateEvents();
   },
 
   _setAttributes: function(attrs) {
     this.$el.attr(attrs);
-  }
+  },
 
+  // iterate over events object for event name, selector, and listener
+  delegateEvents: function() {
+    var events = _.result(this, 'events') || {};
+    for (var key in events) {
+      var method = events[key];
+      // create array with DOM event and selector
+      var match = key.match(delegateEventSplitter);
+      this.delegate(match[1], match[2], _.bind(method, this));
+    }
+    return this;
+  },
+
+  // set DOM listener
+  delegate: function(eventName, selector, listener) {
+    this.$el.on(eventName, selector, listener);
+  }
 
 });
 
