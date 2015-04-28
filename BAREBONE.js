@@ -218,8 +218,8 @@ You no longer need to dig into a JSON object, look up an element on the DOM, and
 var View = Barebone.View = function(options) {
   this.cid = _.uniqueId('view');
   options || (options = {});
-  _.extend(this, _.pick(options, viewOptions), _.pick(options, extraOptions));  // _.pick returns a copy of the object, filtered to only have values for whitelisted keys
-  console.log(_.pick(options, viewOptions));
+  _.extend(this, _.pick(options, viewOptions), _.pick(options, extraOptions), { sub: _.pick(options, extraSubOptions) });  // _.pick returns a copy of the object, filtered to only have values for whitelisted keys
+  console.log(_.pick(options, extraSubOptions));
   // debugger;
   this._ensureElement();
   // debugger;
@@ -227,10 +227,19 @@ var View = Barebone.View = function(options) {
   this.autoRender && this.render.apply(this);
   this.autoReRender && this.renderOnChange.apply(this);
   this.autoRenderTemplate && this.renderTemplate.apply(this);
+  if (!_.isEqual(this.sub, {})) {
+    // for (var option in this.sub) {
+    //   this.sub[option] = this.sub[option].slice(4);
+    // }
+    var subEl = this._createElement(_.result(this.sub, 'sub_tagName'));
+    this._setElement.call(this.sub, subEl);
+    debugger;
+  }
 };
 
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
 var extraOptions = ['autoRender', 'autoReRender', 'autoRenderTemplate'];
+var extraSubOptions = ['sub_tagName'];
 
 // add inheritable properties and methods
 _.extend(View.prototype, Events, {

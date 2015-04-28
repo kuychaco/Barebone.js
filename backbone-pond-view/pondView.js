@@ -2,9 +2,10 @@ var PondView = Barebone.View.extend({
 
   // display table row for each item
   tagName: 'table',//???
+  sub_tagName: 'tr',
   // autoRender: true,
   // autoReRender: true,
-  autoRenderTemplate: true,
+  // autoRenderTemplate: true,
 
   template: _.template('<tr> <td> <%- name %> </td> <td> <img src="<%- image %>"/> </td> </tr>'),  // input - html string, output - function that takes an object w/ properties that we have access to 
 
