@@ -1,15 +1,27 @@
 // # BAREBONE.JS
-// A barebone implementation of [Backbone.js link](http://backbonejs.org/docs/backbone.html)
+// A BAREBONE implementation of [Backbone.js](http://backbonejs.org/docs/backbone.html).
+
+// Use this as a learning resource to:
+// - Demystify MVC frameworks 
+//   * Understand the magic under the hood
+// - Review JavaScript fundamentals:
+//   * this keyword
+//   * scopes & closure
+//   * event system
+//   * instantiation
+//   * subclassing
+
+// Create a closure to avoid polluting the global scope.
 (function() {
 
-  // Create Barebone object namespace.
-  var Barebone = {};
+  // Create BAREBONE object namespace.
+  var BAREBONE = {};
 
   // ## BAREBONE EVENTS 
   // Event system giving the ability to bind and trigger custom named events.
-  // This module will be added to the prototype of Barebone.Model, Barebone.Collection, and Barebone.View.
+  // This module will be added to the prototype of BAREBONE.Model, BAREBONE.Collection, and BAREBONE.View.
 
-  var Events = Barebone.Events = {
+  var Events = BAREBONE.Events = {
 
     // Method to bind an event to a callback function.
     on: function(name, callback, context) {
@@ -38,7 +50,7 @@
   // Model provides a basic set of functionality for managing changes.
 
   // Create a new model with the specified attributes.
-  var Model = Barebone.Model = function(attributes) {
+  var Model = BAREBONE.Model = function(attributes) {
     
     // Attach `attributes` (initial values) and `defaults` to model.
     var attrs = attributes || {};
@@ -105,7 +117,7 @@
   // Any event triggered on a model in a collection will also be triggered on the collection directly.
 
   // Create a new collection.
-  var Collection = Barebone.Collection = function(models) {
+  var Collection = BAREBONE.Collection = function(models) {
     // Keep track of `length` and `models` in collection.
     this.length = 0;
     this.models = [];
@@ -175,7 +187,7 @@
   // You no longer need to dig into a JSON object, look up an element on the DOM, and manually update the HTML. Simply bind your view's `render` function to the model's 'change' event.
 
   // Create a new View.
-  var View = Barebone.View = function(options) {
+  var View = BAREBONE.View = function(options) {
 
     options || (options = {});
 
@@ -273,7 +285,7 @@
   // `extend` returns a function  creates children objects with prototype with protoProps on it.
   var extend = function(protoProps) {
 
-    // `this` will be bound to the a class, such as the Barebone.Model, Barebone.Collection, Barebone.View function.
+    // `this` will be bound to the a class, such as the BAREBONE.Model, BAREBONE.Collection, BAREBONE.View function.
     var parent = this; 
     var child = function() {
       // Invoke parent and pass arguments.
@@ -293,8 +305,8 @@
   // Set up inheritance for the model, collection, and view.
   Model.extend = Collection.extend = View.extend = extend;
 
-  // Attach Barebone library to window object.
-  window.Barebone = Barebone;
+  // Attach BAREBONE library to window object.
+  window.BAREBONE = BAREBONE;
 
 })();
 

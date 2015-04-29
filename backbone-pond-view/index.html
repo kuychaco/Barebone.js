@@ -6,16 +6,20 @@
     <script src="lib/underscore.js"></script>
     <!-- <script src="lib/backbone.js"></script> -->
     <script src="../BAREBONE.js"></script>
-    <script src="fishModel.js"></script>
     <script src="pondView.js"></script>
     <script>
-    // instantiate 3 fish 
-    var goldfish = new Fish({
-      name: 'Goldfish',
-      image: 'http://tinyurl.com/n4vgcl5',
+
+
+    var Fish = BAREBONE.Model.extend({
+      defaults: {
+        name: "Larry",
+        image: "http://www.google.com"
+      }
     });
+
+    // instantiate 3 fish 
     var fugu = new Fish({
-      name: 'Pufferfish',
+      name: 'Fugu',
       image: 'http://tinyurl.com/kxd7cuu'
     });
     var dori = new Fish({
@@ -24,7 +28,7 @@
     });
 
     // instantiate myPond collection with fish models
-    var myPond = new Barebone.Collection([goldfish, fugu, dori], {model: Fish});
+    var myPond = new BAREBONE.Collection([fugu, dori], {model: Fish});
 
     // instantiate pondView
     var pondView = new PondView({

@@ -1,4 +1,4 @@
-var Fish = Barebone.Model.extend({
+var Fish = BAREBONE.Model.extend({
   defaults: {
     name: "Larry",
     image: "http://www.google.com"
