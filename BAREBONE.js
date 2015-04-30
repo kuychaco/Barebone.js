@@ -1,5 +1,5 @@
 // # BAREBONE.JS
-// A BAREBONE implementation of [Backbone.js](http://backbonejs.org/docs/backbone.html).
+// A BAREBONE implementation of [Backbone.js](http://backbonejs.org/docs/backbone.html) (only about 120 lines of code). 
 
 // Use this as a learning resource to:
 // - Demystify MVC frameworks 

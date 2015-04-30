@@ -22,7 +22,7 @@
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
               <h1 id="barebone-js">BAREBONE.JS</h1>
-<p>A BAREBONE implementation of <a href="http://backbonejs.org/docs/backbone.html">Backbone.js</a>.</p>
+<p>A BAREBONE implementation of <a href="http://backbonejs.org/docs/backbone.html">Backbone.js</a> (only about 120 lines of code). </p>
 
             </div>
             
@@ -62,7 +62,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Create a closure to avoid polluting the global scope.</p>
+              <p>Create a closure to avoid polluting the global scope by wrapping the framework in an IIFE.</p>
 
             </div>
             
@@ -953,12 +953,12 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-55">&#182;</a>
               </div>
-              <p>Helper functions to correctly set up prototype chain for subclasses.
-<code>extend</code> returns a function  creates children objects with prototype with protoProps on it.</p>
+              <p><code>extend</code> returns a subclass (ex: Fish class) with a prototype object that contains 
+user-specified properties, which delegates to the Model class. 
+This is how the <code>initialize</code> method passed to the BAREBONE.Model.extend function
+masks the default empty <code>initialize</code> method stored on BAREBONE.Model.prototype.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> extend = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(protoProps)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -969,12 +969,11 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-56">&#182;</a>
               </div>
-              <p><code>this</code> will be bound to the a class, such as the BAREBONE.Model, BAREBONE.Collection, BAREBONE.View function.</p>
+              <p>Helper functions to correctly set up prototype chain for subclasses. Examples below are for BAREBONE.Model and a Fish Model class.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> parent = <span class="hljs-keyword">this</span>; 
-    <span class="hljs-keyword">var</span> child = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> extend = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(protoProps)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -985,12 +984,11 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-57">&#182;</a>
               </div>
-              <p>Invoke parent and pass arguments.</p>
+              <p><code>this</code> is bound to a class, such as the BAREBONE.Model constructor function.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> parent.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>); 
-    };</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> Parent = <span class="hljs-keyword">this</span>;</pre></div></div>
             
         </li>
         
@@ -1001,13 +999,13 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-58">&#182;</a>
               </div>
-              <p>Surrogate returns child.prototype object with constructor property of child and prototype object matching parent prototype (Model.prototype).</p>
+              <p>Constructor function for the new subclass (ex: Fish) to be returned. Simply calls the Parent’s constructor (ex: BAREBONE.Model).</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> Surrogate = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">this</span>.constructor = child; };   
-    Surrogate.prototype = parent.prototype;
-    child.prototype = <span class="hljs-keyword">new</span> Surrogate;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> Child = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">return</span> Parent.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>); 
+    };</pre></div></div>
             
         </li>
         
@@ -1018,13 +1016,11 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-59">&#182;</a>
               </div>
-              <p>Decorate subclass (child.prototype) with prototype properties (instance properties).</p>
+              <p>Add static properties (those attached directly to the constructor function).</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (protoProps) _.extend(child.prototype, protoProps);
-    <span class="hljs-keyword">return</span> child;
-  };</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    _.extend(Child, Parent);</pre></div></div>
             
         </li>
         
@@ -1035,11 +1031,9 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-60">&#182;</a>
               </div>
-              <p>Set up inheritance for the model, collection, and view.</p>
+              <p>Set the prototype chain to inherit from <code>Parent</code> without calling the <code>Parent</code> constructor function.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>  Model.extend = Collection.extend = View.extend = extend;</pre></div></div>
             
         </li>
         
@@ -1050,13 +1044,14 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-61">&#182;</a>
               </div>
-              <p>Attach BAREBONE library to window object.</p>
+              <p>Surrogate returns the Child.prototype object (ex: Fish.prototype) with the correct constructor property (ex: Fish).
+The returned Child.prototype object (ex: Fish.prototype) delegates to the Parent.prototype (ex: Model.prototype).</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-built_in">window</span>.BAREBONE = BAREBONE;
-
-})();</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> Surrogate = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">this</span>.constructor = Child; };   
+    Surrogate.prototype = Parent.prototype;
+    Child.prototype = <span class="hljs-keyword">new</span> Surrogate;</pre></div></div>
             
         </li>
         
@@ -1067,9 +1062,14 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-62">&#182;</a>
               </div>
-              <p>Look deeper: relationship between bb.Model, bb.extend and use of Surrogate func to set up prototype delegation</p>
+              <p>Decorate subclass prototype (ex: Fish.prototype) with supplied prototype properties (instance properties).
+Properties on Child.prototype will mask properties on Parent.prototype (such as the user-defined <code>initialize</code> method, or <code>tagName</code> on Views). </p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (protoProps) _.extend(Child.prototype, protoProps);
+    <span class="hljs-keyword">return</span> Child;
+  };</pre></div></div>
             
         </li>
         
@@ -1080,10 +1080,11 @@ Add view-specific methods.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-63">&#182;</a>
               </div>
-              <p>Ex: Model.prototype has an empty <code>initialize</code> methods. 
-We want to add our own <code>initialize</code> method using <code>Model.prototype.extend</code> which will overwrite the empty one on Model.prototype.</p>
+              <p>Set up inheritance for the model, collection, and view.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>  Model.extend = Collection.extend = View.extend = extend;</pre></div></div>
             
         </li>
         
@@ -1094,11 +1095,13 @@ We want to add our own <code>initialize</code> method using <code>Model.prototyp
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-64">&#182;</a>
               </div>
-              <p>set up prototype chain to inherit from parent Model.prototype without calling parent’s constructor function (no invoking parent)
-QUESTION: “set up prototype chain to inherit from parent, without calling <strong>parent’s constructor function</strong>“ —&gt; without calling parent, which is the constructor function, CONTRIBUTION?
-create a surrogate which gets invoked instead</p>
+              <p>Attach BAREBONE library to window object, creating a closure.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-built_in">window</span>.BAREBONE = BAREBONE;
+
+})();</pre></div></div>
             
         </li>
         
