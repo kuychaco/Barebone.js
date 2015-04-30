@@ -1,5 +1,6 @@
 # Barebone.js #
-* Documentation adapted from original [Backbone](http://backbonejs.org/docs/backbone.html) documentation.
+Documentation adapted from original [Backbone](http://backbonejs.org/docs/backbone.html) documentation.
+
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
 
@@ -55,4 +56,4 @@ Once the project moves into development, the press release can be used as a touc
   > "Wow! I can see the light! The darkness in the black box of MV* frameworks is receding!"
 
 ## Closing and Call to Action ##
-  > If you're curious to learn more and dive deeper into the guts of MV* frameworks, checkout the Backbone.js source code [here](http://backbonejs.org/docs/backbone.html). 
+  > If you're curious to learn more and dive deeper into the guts of MV* frameworks, checkout the Barebone.js source code [here](https://kuychaco.github.io/Barebone.js/docs/BAREBONE.html). 

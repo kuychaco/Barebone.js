@@ -1,0 +1,39 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <script src="lib/jquery.js"></script>
+    <script src="lib/underscore.js"></script>
+    <!-- <script src="lib/backbone.js"></script> -->
+    <script src="../BAREBONE.js"></script>
+    <script src="pondView.js"></script>
+    <script>
+
+    var Fish = BAREBONE.Model.extend({
+      defaults: {
+        name: "Larry",
+        image: "http://www.google.com"
+      }
+    });
+
+    // instantiate fish 
+    var fugu = new Fish({
+      name: 'Fugu',
+      image: 'http://tinyurl.com/kxd7cuu'
+    });
+    var dori = new Fish({
+      name: 'Dori',
+      image: 'http://toons.mit.edu/images/d/d1/Dori.jpg'
+    });
+
+    // instantiate myPond collection with fish models
+    var myPond = new BAREBONE.Collection([fugu, dori], {model: Fish});
+
+    // instantiate pondView
+    var pondView = new PondView({
+      collection: myPond
+    });
+
+    </script>
+  </body>
+</html>
