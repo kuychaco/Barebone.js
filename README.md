@@ -1,5 +1,5 @@
 # Barebone.js #
-
+* Documentation adapted from original [Backbone](http://backbonejs.org/docs/backbone.html) documentation.
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
 
@@ -17,15 +17,23 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## What is it? ##
-  > A super barebone reimplementation of Backbone.js.
+  > Barebone.js is a super barebone reimplementation of Backbone.js.
 
-## What for? ##
-  > A library inspired by Backbone.js for basic MV* app architecture that can also be used as an education resource for those who want to understand what's happening under the hood in Backbone.js
+## What's it for? ##
+  > Create simple web apps using a minimalistic, refreshingly unopinionated framework with source code that you can easily parse through.
+  > 
+  > Use this as a learning resource to:
+  > * Demystify MVC frameworks
+  >   - Understand the magic under the hood of Backbone.js
+  > * Review JavaScript fundamentals:
+  >   - this keyword
+  >   - scopes & closure
+  >   - event system
+  >   - instantiation
+  >   - subclassing
 
 ## Summary ##
   > Barebone.js gives structure to web applications by providing models with key-value binding and custom events, collections with a rich API of enumerable functions, and views with declarative event handling.  
-
-* summary adapted from http://backbonejs.org/
 
 ## Problem ##
   > When working on a web application, you'll find that tying your data to the DOM could result in tangled piles of jQuery selectors and callbacks, all trying to keep the data in sync between the UI, your javascript logic, and database. For rich client-side apps, a more structured approach is often helpful.
@@ -47,4 +55,4 @@ Once the project moves into development, the press release can be used as a touc
   > "Wow! I can see the light! The darkness in the black box of MV* frameworks is receding!"
 
 ## Closing and Call to Action ##
-  > If you're curious to learn more and dive deeper into the guts of MV* frameworks, checkout the Backbone.js source code [here link](http://backbonejs.org/docs/backbone.html). 
+  > If you're curious to learn more and dive deeper into the guts of MV* frameworks, checkout the Backbone.js source code [here](http://backbonejs.org/docs/backbone.html). 
