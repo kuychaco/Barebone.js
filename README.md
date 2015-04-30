@@ -1,5 +1,6 @@
 # Barebone.js #
-* Documentation adapted from original [Backbone](http://backbonejs.org/docs/backbone.html) documentation.
+Documentation adapted from original [Backbone](http://backbonejs.org/docs/backbone.html) documentation.
+
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
 
