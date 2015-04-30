@@ -11,7 +11,7 @@
 //   * instantiation
 //   * subclassing
 
-// Create a closure to avoid polluting the global scope.
+// Create a closure to avoid polluting the global scope by wrapping the framework in an IIFE.
 (function() {
 
   // Create BAREBONE object namespace.
@@ -281,40 +281,47 @@
 
   // ## HELPER FUNCTIONS
 
-  // Helper functions to correctly set up prototype chain for subclasses.
-  // `extend` returns a function  creates children objects with prototype with protoProps on it.
+  // `extend` returns a subclass (ex: Fish class) with a prototype object that contains 
+  // user-specified properties, which delegates to the Model class. 
+  // This is how the `initialize` method passed to the BAREBONE.Model.extend function
+  // masks the default empty `initialize` method stored on BAREBONE.Model.prototype.
+  
+  // Helper functions to correctly set up prototype chain for subclasses. Examples below are for BAREBONE.Model and a Fish Model class.
   var extend = function(protoProps) {
 
-    // `this` will be bound to the a class, such as the BAREBONE.Model, BAREBONE.Collection, BAREBONE.View function.
-    var parent = this; 
-    var child = function() {
-      // Invoke parent and pass arguments.
-      return parent.apply(this, arguments); 
+    // `this` is bound to a class, such as the BAREBONE.Model constructor function.
+    var Parent = this; 
+    // Constructor function for the new subclass (ex: Fish) to be returned. Simply calls the Parent's constructor (ex: BAREBONE.Model).
+    var Child = function() {
+      return Parent.apply(this, arguments); 
     };
 
-    // Surrogate returns child.prototype object with constructor property of child and prototype object matching parent prototype (Model.prototype).
-    var Surrogate = function() { this.constructor = child; };   
-    Surrogate.prototype = parent.prototype;
-    child.prototype = new Surrogate;
+    // Add static properties (those attached directly to the constructor function).
+    _.extend(Child, Parent);
 
-    // Decorate subclass (child.prototype) with prototype properties (instance properties).
-    if (protoProps) _.extend(child.prototype, protoProps);
-    return child;
+    // Set the prototype chain to inherit from `Parent` without calling the `Parent` constructor function.
+    
+    // Surrogate returns the Child.prototype object (ex: Fish.prototype) with the correct constructor property (ex: Fish).
+    // The returned Child.prototype object (ex: Fish.prototype) delegates to the Parent.prototype (ex: Model.prototype).
+    var Surrogate = function() { this.constructor = Child; };   
+    Surrogate.prototype = Parent.prototype;
+    Child.prototype = new Surrogate;
+
+    // Decorate subclass prototype (ex: Fish.prototype) with supplied prototype properties (instance properties).
+    // Properties on Child.prototype will mask properties on Parent.prototype (such as the user-defined `initialize` method, or `tagName` on Views). 
+    if (protoProps) _.extend(Child.prototype, protoProps);
+    return Child;
   };
 
   // Set up inheritance for the model, collection, and view.
   Model.extend = Collection.extend = View.extend = extend;
 
-  // Attach BAREBONE library to window object.
+  // Attach BAREBONE library to window object, creating a closure.
   window.BAREBONE = BAREBONE;
 
 })();
 
-// Look deeper: relationship between bb.Model, bb.extend and use of Surrogate func to set up prototype delegation
 
-// Ex: Model.prototype has an empty `initialize` methods. 
-// We want to add our own `initialize` method using `Model.prototype.extend` which will overwrite the empty one on Model.prototype.
 
-// set up prototype chain to inherit from parent Model.prototype without calling parent's constructor function (no invoking parent)
-// QUESTION: "set up prototype chain to inherit from parent, without calling **parent's constructor function**" --> without calling parent, which is the constructor function, CONTRIBUTION?
-// create a surrogate which gets invoked instead
+
+
