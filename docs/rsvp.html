@@ -192,7 +192,7 @@ This will be instantiated with the <code>guests</code> collection.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>When there is a change on a model property (such as <code>attending</code> being set to <code>true</code>), update the attendee count.</p>
+              <p>When there is a change on a model property (such as <code>attending</code> being set to <code>true</code>), update the attendee count and re-render <code>ListView</code>.</p>
 
             </div>
             
@@ -201,6 +201,7 @@ This will be instantiated with the <code>guests</code> collection.</p>
         <span class="hljs-keyword">return</span> guest.attributes.attending === <span class="hljs-literal">true</span>;
       });
       $(<span class="hljs-string">'#count'</span>).text(attendeeList.length);
+      <span class="hljs-keyword">this</span>.render();
     }, <span class="hljs-keyword">this</span>);
   },</pre></div></div>
             
@@ -265,11 +266,11 @@ There will be one instantiated per guest model in the <code>guests</code> collec
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>Use Underscore’s template function to fill in correct name for a given guest model.</p>
+              <p>Use Underscore’s template function to fill in correct name for a given guest model and add a checkmark if the guest’s <code>attending</code> property is set to <code>true</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  template: _.template(<span class="hljs-string">'&lt;%- name %&gt;'</span>),</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  template: _.template(<span class="hljs-string">'&lt;%- name %&gt; &lt;% if (attending) { %&gt; &lt;img src="checkmark.png"/&gt; &lt;% } %&gt;'</span>),</pre></div></div>
             
         </li>
         
@@ -280,18 +281,13 @@ There will be one instantiated per guest model in the <code>guests</code> collec
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>Listen for DOM <code>click</code> event and change CSS highlighting accordingly. Highlight attendees in yellow.</p>
+              <p>Listen for DOM <code>click</code> event and change <code>attending</code> property on model accordingly.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>  events: {
     <span class="hljs-string">'click'</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> </span>{
       <span class="hljs-keyword">this</span>.model.set(<span class="hljs-string">'attending'</span>, !<span class="hljs-keyword">this</span>.model.get(<span class="hljs-string">'attending'</span>)); 
-      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.model.get(<span class="hljs-string">'attending'</span>)) {
-        $(event.target).css(<span class="hljs-string">'background-color'</span>, <span class="hljs-string">'yellow'</span>);
-      } <span class="hljs-keyword">else</span> {
-        $(event.target).css(<span class="hljs-string">'background-color'</span>, <span class="hljs-string">'transparent'</span>);
-      }
     }
   },</pre></div></div>
             
