@@ -137,7 +137,9 @@
 
     // Add a model or list of models to the set.
     add: function(models) {
-      return this.set(models);
+      var added = this.set(models);
+      this.trigger('add', models);
+      return added;
     },
 
     // Update collection by setting models.
