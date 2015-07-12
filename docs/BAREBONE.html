@@ -491,7 +491,9 @@ Add collection-specific methods.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    add: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(models)</span> </span>{
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.set(models);
+      <span class="hljs-keyword">var</span> added = <span class="hljs-keyword">this</span>.set(models);
+      <span class="hljs-keyword">this</span>.trigger(<span class="hljs-string">'add'</span>, models);
+      <span class="hljs-keyword">return</span> added;
     },</pre></div></div>
             
         </li>
