@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>rsvp.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>rsvp.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Let’s have a BAREBONE.JS Party!!
+Here’s a barebone implementation of an RSVP application to track attendees…</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Create <code>Guest</code> Model.
+Set default <code>attending</code> property to false. This will be toggled on click of the attendee’s <code>name</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Guest = BAREBONE.Model.extend({
+  defaults: {
+    attending: <span class="hljs-literal">false</span>
+  }
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Instantiate instances of <code>Guest</code> Model.
+Who invited these two nerds…?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> katrina = <span class="hljs-keyword">new</span> Guest({
+  name: <span class="hljs-string">'Katrina Uychaco'</span>
+});
+<span class="hljs-keyword">var</span> kalev = <span class="hljs-keyword">new</span> Guest({
+  name: <span class="hljs-string">'Kalev Roomann-Kurrik'</span>
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Instantiate <code>guests</code> Collection array with our two current guests.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> guests = <span class="hljs-keyword">new</span> BAREBONE.Collection([katrina, kalev]);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Handle adding a new <code>Guest</code> model to the <code>guests</code> collection via UI form input. </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>$(<span class="hljs-string">'form'</span>).on(<span class="hljs-string">'submit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> </span>{
+  event.preventDefault();
+  guests.add(<span class="hljs-keyword">new</span> Guest({name: $(<span class="hljs-string">'#name'</span>).val()}));
+  $(<span class="hljs-string">'#name'</span>).val(<span class="hljs-string">''</span>);
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Create <code>ListView</code>, which has subviews of <code>ListEntryView</code>.
+This will be instantiated with the <code>guests</code> collection.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> ListView = BAREBONE.View.extend({</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Let’s put our attendies in an unordred list.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  tagName: <span class="hljs-string">'ul'</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>This method gets invoked upon instantiation of <code>ListView</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  initialize: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Perform initial rendering of view.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.render();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>When a new <code>Guest</code> model is added, re-render view.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.collection.on(<span class="hljs-string">'add'</span>, <span class="hljs-keyword">this</span>.render, <span class="hljs-keyword">this</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>When there is a change on a model property (such as <code>attending</code> being set to <code>true</code>), update the attendee count.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.collection.on(<span class="hljs-string">'change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">var</span> attendeeList = <span class="hljs-keyword">this</span>.collection.filter(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(guest)</span> </span>{
+        <span class="hljs-keyword">return</span> guest.attributes.attending === <span class="hljs-literal">true</span>;
+      });
+      $(<span class="hljs-string">'#count'</span>).text(attendeeList.length);
+    }, <span class="hljs-keyword">this</span>);
+  },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Define render method, which maps over the <code>guests</code> collection and instantiates and renders a <code>ListEntryView</code> for each <code>guest</code> model.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">var</span> names = <span class="hljs-keyword">this</span>.collection.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(guest)</span> </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ListEntryView({model: guest}).render();
+    });
+    <span class="hljs-keyword">this</span>.$el.html(names).appendTo(<span class="hljs-string">'#guestList'</span>);
+  }
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Create <code>ListEntryView</code>, which is a subview of <code>ListView</code>.
+There will be one instantiated per guest model in the <code>guests</code> collection associated with <code>ListView</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> ListEntryView = BAREBONE.View.extend({</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Each guest will be an item in a list.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  tagName: <span class="hljs-string">'li'</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Use Underscore’s template function to fill in correct name for a given guest model.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  template: _.template(<span class="hljs-string">'&lt;%- name %&gt;'</span>),</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Listen for DOM <code>click</code> event and change CSS highlighting accordingly. Highlight attendees in yellow.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  events: {
+    <span class="hljs-string">'click'</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> </span>{
+      <span class="hljs-keyword">this</span>.model.set(<span class="hljs-string">'attending'</span>, !<span class="hljs-keyword">this</span>.model.get(<span class="hljs-string">'attending'</span>)); 
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.model.get(<span class="hljs-string">'attending'</span>)) {
+        $(event.target).css(<span class="hljs-string">'background-color'</span>, <span class="hljs-string">'yellow'</span>);
+      } <span class="hljs-keyword">else</span> {
+        $(event.target).css(<span class="hljs-string">'background-color'</span>, <span class="hljs-string">'transparent'</span>);
+      }
+    }
+  },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Define render method, which returns HTML for a given guest.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$el.html(<span class="hljs-keyword">this</span>.template(<span class="hljs-keyword">this</span>.model.attributes));
+  }
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>START THE PARTAAYYY!!
+Instantiate <code>ListView</code> with the <code>guests</code> collection and get your BAREBONE.JS party started ^_^</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">new</span> ListView({collection: guests});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
