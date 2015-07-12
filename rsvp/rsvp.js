@@ -39,12 +39,13 @@ var ListView = BAREBONE.View.extend({
     this.render();
     // When a new `Guest` model is added, re-render view.
     this.collection.on('add', this.render, this);
-    // When there is a change on a model property (such as `attending` being set to `true`), update the attendee count.
+    // When there is a change on a model property (such as `attending` being set to `true`), update the attendee count and re-render `ListView`.
     this.collection.on('change', function() {
       var attendeeList = this.collection.filter(function(guest) {
         return guest.attributes.attending === true;
       });
       $('#count').text(attendeeList.length);
+      this.render();
     }, this);
   },
   // Define render method, which maps over the `guests` collection and instantiates and renders a `ListEntryView` for each `guest` model.
@@ -61,17 +62,12 @@ var ListView = BAREBONE.View.extend({
 var ListEntryView = BAREBONE.View.extend({
   // Each guest will be an item in a list.
   tagName: 'li',
-  // Use Underscore's template function to fill in correct name for a given guest model.
-  template: _.template('<%- name %>'),
-  // Listen for DOM `click` event and change CSS highlighting accordingly. Highlight attendees in yellow.
+  // Use Underscore's template function to fill in correct name for a given guest model and add a checkmark if the guest's `attending` property is set to `true`.
+  template: _.template('<%- name %> <% if (attending) { %> <img src="checkmark.png"/> <% } %>'),
+  // Listen for DOM `click` event and change `attending` property on model accordingly.
   events: {
     'click': function(event) {
       this.model.set('attending', !this.model.get('attending')); 
-      if (this.model.get('attending')) {
-        $(event.target).css('background-color', 'yellow');
-      } else {
-        $(event.target).css('background-color', 'transparent');
-      }
     }
   },
   // Define render method, which returns HTML for a given guest.
