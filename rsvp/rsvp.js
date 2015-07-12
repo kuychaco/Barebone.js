@@ -1,43 +1,45 @@
-/* 
-* @Author: Katrina Uychaco
-* @Date:   2015-07-11 16:37:05
-* @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-11 18:05:16
-*/
+// Let's have a BAREBONE.JS Party!!
+// Here's a barebone implementation of an RSVP application to track attendees...
 
-'use strict';
-
-// Instantiate Model
+// Create `Guest` Model.
+// Set default `attending` property to false. This will be toggled on click of the attendee's `name`.
 var Guest = BAREBONE.Model.extend({
   defaults: {
     attending: false
   }
 });
 
+// Instantiate instances of `Guest` Model.
+// Who invited these two nerds...?
+var katrina = new Guest({
+  name: 'Katrina Uychaco'
+});
+var kalev = new Guest({
+  name: 'Kalev Roomann-Kurrik'
+});
+
+// Instantiate `guests` Collection array with our two current guests.
+var guests = new BAREBONE.Collection([katrina, kalev]);
+
+// Handle adding a new `Guest` model to the `guests` collection via UI form input. 
 $('form').on('submit', function(event) {
   event.preventDefault();
   guests.add(new Guest({name: $('#name').val()}));
   $('#name').val('');
 });
 
-var katrina = new Guest({
-  name: 'Katrina Uychaco'
-});
-
-var kalev = new Guest({
-  name: 'Kalev Roomann-Kurrik'
-});
-
-// Instantiate Collection
-var guests = new BAREBONE.Collection([katrina, kalev]);
-
-// Instantiate View
+// Create `ListView`, which has subviews of `ListEntryView`.
+// This will be instantiated with the `guests` collection.
 var ListView = BAREBONE.View.extend({
+  // Let's put our attendies in an unordred list.
   tagName: 'ul',
+  // This method gets invoked upon instantiation of `ListView`.
   initialize: function() {
-    console.log('view initialized');
+    // Perform initial rendering of view.
     this.render();
+    // When a new `Guest` model is added, re-render view.
     this.collection.on('add', this.render, this);
+    // When there is a change on a model property (such as `attending` being set to `true`), update the attendee count.
     this.collection.on('change', function() {
       var attendeeList = this.collection.filter(function(guest) {
         return guest.attributes.attending === true;
@@ -45,20 +47,23 @@ var ListView = BAREBONE.View.extend({
       $('#count').text(attendeeList.length);
     }, this);
   },
+  // Define render method, which maps over the `guests` collection and instantiates and renders a `ListEntryView` for each `guest` model.
   render: function() {
-    console.log('view render');
-    var names = this.collection.map(function(person) {
-      console.log(new ListEntryView({model: person}).render());
-      return new ListEntryView({model: person}).render();
+    var names = this.collection.map(function(guest) {
+      return new ListEntryView({model: guest}).render();
     });
-    console.log(names);
     this.$el.html(names).appendTo('#guestList');
   }
 });
 
+// Create `ListEntryView`, which is a subview of `ListView`.
+// There will be one instantiated per guest model in the `guests` collection associated with `ListView`.
 var ListEntryView = BAREBONE.View.extend({
+  // Each guest will be an item in a list.
   tagName: 'li',
+  // Use Underscore's template function to fill in correct name for a given guest model.
   template: _.template('<%- name %>'),
+  // Listen for DOM `click` event and change CSS highlighting accordingly. Highlight attendees in yellow.
   events: {
     'click': function(event) {
       this.model.set('attending', !this.model.get('attending')); 
@@ -69,9 +74,12 @@ var ListEntryView = BAREBONE.View.extend({
       }
     }
   },
+  // Define render method, which returns HTML for a given guest.
   render: function() {
     return this.$el.html(this.template(this.model.attributes));
   }
 });
 
-var list = new ListView({collection: guests});
+// START THE PARTAAYYY!!
+// Instantiate `ListView` with the `guests` collection and get your BAREBONE.JS party started ^_^
+new ListView({collection: guests});
