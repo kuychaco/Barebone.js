@@ -78,7 +78,7 @@
     // Set or update the value of an attribute. 
     set: function(key, val) {
 
-      var attrs, attr, current, prev, changes, options;
+      var attrs;
 
       if (key == null) return this; 
 
@@ -90,7 +90,7 @@
       }
 
       // Add or change attribute in `this.attributes` object.
-      for (attr in attrs) {
+      for (var attr in attrs) {
         this.attributes[attr] = attrs[attr];
       }
 
@@ -283,7 +283,7 @@
 
   // ## HELPER FUNCTIONS
 
-  // `extend` returns a subclass (ex: Fish class) with a prototype object that contains 
+  // `extend` returns a subclass (ex: Guest class) with a prototype object that contains 
   // user-specified properties, which delegates to the Model class. 
   // This is how the `initialize` method passed to the BAREBONE.Model.extend function
   // masks the default empty `initialize` method stored on BAREBONE.Model.prototype.
