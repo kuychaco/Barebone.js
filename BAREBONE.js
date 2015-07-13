@@ -4,6 +4,7 @@
 // Use this as a learning resource to:
 // - Demystify MVC frameworks 
 //   * Understand the magic under the hood
+//   * See how the components work together
 // - Review JavaScript fundamentals:
 //   * this keyword
 //   * scopes & closure
