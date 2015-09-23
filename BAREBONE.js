@@ -303,12 +303,9 @@
     _.extend(Child, Parent);
 
     // Set the prototype chain to inherit from `Parent` without calling the `Parent` constructor function.
-    
-    // Surrogate returns the Child.prototype object (ex: Fish.prototype) with the correct constructor property (ex: Fish).
-    // The returned Child.prototype object (ex: Fish.prototype) delegates to the Parent.prototype (ex: Model.prototype).
-    var Surrogate = function() { this.constructor = Child; };   
-    Surrogate.prototype = Parent.prototype;
-    Child.prototype = new Surrogate;
+    // The Child.prototype object (ex: Fish.prototype) delegates to the Parent.prototype (ex: Model.prototype).
+    Child.prototype = Object.create(Parent.prototype);
+    Child.prototype.constructor = Child;
 
     // Decorate subclass prototype (ex: Fish.prototype) with supplied prototype properties (instance properties).
     // Properties on Child.prototype will mask properties on Parent.prototype (such as the user-defined `initialize` method, or `tagName` on Views). 
