@@ -1034,9 +1034,13 @@ masks the default empty <code>initialize</code> method stored on BAREBONE.Model.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-60">&#182;</a>
               </div>
-              <p>Set the prototype chain to inherit from <code>Parent</code> without calling the <code>Parent</code> constructor function.</p>
+              <p>Set the prototype chain to inherit from <code>Parent</code> without calling the <code>Parent</code> constructor function.
+The Child.prototype object (ex: Fish.prototype) delegates to the Parent.prototype (ex: Model.prototype).</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>    Child.prototype = <span class="hljs-built_in">Object</span>.create(Parent.prototype);
+    Child.prototype.constructor = Child;</pre></div></div>
             
         </li>
         
@@ -1046,24 +1050,6 @@ masks the default empty <code>initialize</code> method stored on BAREBONE.Model.
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-61">&#182;</a>
-              </div>
-              <p>Surrogate returns the Child.prototype object (ex: Fish.prototype) with the correct constructor property (ex: Fish).
-The returned Child.prototype object (ex: Fish.prototype) delegates to the Parent.prototype (ex: Model.prototype).</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> Surrogate = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">this</span>.constructor = Child; };   
-    Surrogate.prototype = Parent.prototype;
-    Child.prototype = <span class="hljs-keyword">new</span> Surrogate;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-62">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-62">&#182;</a>
               </div>
               <p>Decorate subclass prototype (ex: Fish.prototype) with supplied prototype properties (instance properties).
 Properties on Child.prototype will mask properties on Parent.prototype (such as the user-defined <code>initialize</code> method, or <code>tagName</code> on Views). </p>
@@ -1077,11 +1063,11 @@ Properties on Child.prototype will mask properties on Parent.prototype (such as 
         </li>
         
         
-        <li id="section-63">
+        <li id="section-62">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-63">&#182;</a>
+                <a class="pilcrow" href="#section-62">&#182;</a>
               </div>
               <p>Set up inheritance for the model, collection, and view.</p>
 
@@ -1092,11 +1078,11 @@ Properties on Child.prototype will mask properties on Parent.prototype (such as 
         </li>
         
         
-        <li id="section-64">
+        <li id="section-63">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-64">&#182;</a>
+                <a class="pilcrow" href="#section-63">&#182;</a>
               </div>
               <p>Attach BAREBONE library to window object, creating a closure.</p>
 
